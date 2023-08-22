@@ -3,10 +3,10 @@ using System.Text;
 
 internal static class Program
 {
-    private static readonly string PATH_0 = "../../../../TOHE/Resources/String.csv";
-    private static readonly string PATH_1 = "../../../../String1.csv";
-    private static readonly string PATH_2 = "../../../../String2.csv";
-    private static readonly string PATH_Result = "../../../../Result.csv";
+    private static readonly string PATH_0 = "../../../../TOHE-Restored/Resources/String.csv";
+    private static readonly string PATH_1 = "../../../../CSV-Split/Build csv/String1.csv";
+    //private static readonly string PATH_2 = "../../../../String2.csv";
+    private static readonly string PATH_Result = "../../../../CSV-Split/Build csv/Result.csv";
 
     private class CsvFile
     {
@@ -22,8 +22,8 @@ internal static class Program
         ReadFile(ref main, PATH_0);
         while (true)
         {
-            Console.WriteLine("\n1: 一键分割\n2: 自定义分割文件\n3: 一键合并\n4: 自定义合并文件\n5. 添加语言模板\n6. 输出数据");
-            Console.Write("\n选择需要执行的操作: ");
+            Console.WriteLine("\n1: 一Cплит ключ\n2: Настройка разделенных файлов\n3: 一Объединение одним ключом\n4: пользовательский файл слияния\n5: Добавить языковой шаблон\n6: Выходные данные");
+            Console.Write("\nВыберите, что нужно сделать: ");
             var input = Console.ReadLine();
             if (input?.ToLower() == "0") break;
             Console.Clear();
@@ -31,35 +31,35 @@ internal static class Program
             switch (op)
             {
                 case 1:
-                    Split(main, PATH_1, "13 0 5 14");
-                    Split(main, PATH_2, "13 12");
+                    Split(main, PATH_1, "13 0 5 14 12");
+                    //Split(main, PATH_2, "13 12");
                     break;
                 case 2:
                     Split(main, PATH_1);
                     break;
                 case 3:
-                    if (File.Exists(PATH_2))
-                    {
-                        CsvFile f1 = new();
-                        Console.Write("读取待合并文件1 => ");
-                        ReadFile(ref f1, PATH_1);
-                        Merge(main, f1, PATH_0);
-                    }
-                    if (File.Exists(PATH_2))
-                    {
-                        CsvFile f2 = new();
-                        Console.Write("读取待合并文件2 => ");
-                        ReadFile(ref f2, PATH_2);
-                        Merge(main, f2, PATH_0);
-                    }
+                    //if (File.Exists(PATH_2))
+                    //{
+                    //    CsvFile f1 = new();
+                    //    Console.Write("Прочитать файл 1 для объединения => ");
+                    //    ReadFile(ref f1, PATH_1);
+                    //    Merge(main, f1, PATH_0);
+                    //}
+                    //if (File.Exists(PATH_2))
+                    //{
+                    //    CsvFile f2 = new();
+                    //    Console.Write("Прочитать файл 2 для слияния => ");
+                    //    ReadFile(ref f2, PATH_2);
+                    //    Merge(main, f2, PATH_0);
+                    //}
                     break;
                 case 4:
-                    Console.Write("需要合并的文件: ");
+                    Console.Write("Файлы, которые необходимо объединить: ");
                     var inputToMerge = Console.ReadLine();
                     if (inputToMerge != null)
                     {
                         CsvFile fc = new();
-                        ReadFile(ref fc, "../../../../" + inputToMerge + ".csv");
+                        ReadFile(ref fc, "../../../../CSV-Split/Build csv/" + inputToMerge + ".csv");
                         Merge(main, fc, PATH_Result);
                     }
                     break;
@@ -70,11 +70,11 @@ internal static class Program
                     msg += "### French = 8 / German = 9 / Italian = 10 / Japanese = 11\n";
                     msg += "### Spanish = 12 / SChinese = 13 / TChinese = 14 / Irish = 15\n";
                     Console.WriteLine(msg);
-                    Console.Write("需要添加的语言ID: ");
+                    Console.Write("Идентификаторы языков, которые необходимо добавить: ");
                     var id = Console.ReadLine();
                     Console.WriteLine("-----------------------------------");
                     if (!int.TryParse(id, out var x))
-                        Console.WriteLine("输入的ID错误");
+                        Console.WriteLine("Введен неправильный идентификатор");
                     else NewLang(ref main, x);
                     break;
                 case 6:
@@ -85,7 +85,7 @@ internal static class Program
                     break;
             }
             Console.WriteLine("-----------------------------------");
-            Console.Write("\n按任意键继续...");
+            Console.Write("\nНажмите любую клавишу для продолжения...");
             Console.ReadLine();
             Console.Clear();
         }
@@ -161,7 +161,7 @@ internal static class Program
         string input;
         if (ip == "")
         {
-            Console.Write("输出的语言：");
+            Console.Write("Язык вывода:");
             input = Console.ReadLine();
         }
         else input = ip;
@@ -194,7 +194,7 @@ internal static class Program
             sb.Append('\n');
         }
         File.WriteAllText(path, sb.ToString());
-        Console.WriteLine($"写到文件：{Path.GetFullPath(path)}");
+        Console.WriteLine($"Запись в файл： {Path.GetFullPath(path)}");
         return true;
     }
 
@@ -226,7 +226,7 @@ internal static class Program
             }
             foreach (var single in str.Value)
             {
-                if (!target.langs.Contains(single.Key.ToString()) || single.Key == 13 || !target.map.ContainsKey(str.Key) || !target.map[str.Key].ContainsKey(single.Key))
+                if (!target.langs.Contains(single.Key.ToString()) || single.Key == 0 || !target.map.ContainsKey(str.Key) || !target.map[str.Key].ContainsKey(single.Key))
                     sb.Append($",\"{single.Value}\"");
                 else
                     sb.Append($",\"{target.map[str.Key][single.Key]}\"");
@@ -236,7 +236,7 @@ internal static class Program
 
         if (!File.Exists(path)) File.Create(path).Close();
         File.WriteAllText(path, sb.ToString());
-        Console.WriteLine($"写到文件：{Path.GetFullPath(path)}");
+        Console.WriteLine($"Запись в файл： {Path.GetFullPath(path)}");
         return false;
     }
 
@@ -257,7 +257,7 @@ internal static class Program
             newMap.Add(single.Key, str);
         }
         file.map = newMap;
-        Console.WriteLine("新语言已添加至缓存数据");
+        Console.WriteLine("В данные кэша был добавлен новый язык");
     }
 
     private static bool Output(CsvFile main, string path)
@@ -286,7 +286,7 @@ internal static class Program
         }
         if (!File.Exists(path)) File.Create(path).Close();
         File.WriteAllText(path, sb.ToString());
-        Console.WriteLine($"写到文件：{Path.GetFullPath(path)}");
+        Console.WriteLine($"Запись в файл： {Path.GetFullPath(path)}");
         return false;
     }
 }
