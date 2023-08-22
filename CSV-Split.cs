@@ -3,10 +3,10 @@ using System.Text;
 
 internal static class Program
 {
-    private static readonly string PATH_0 = "C:/Users/fadee/Desktop/CSVVS/Resources/String.csv";
-    private static readonly string PATH_1 = "C:/Users/fadee/Desktop/CSVVS/Build csv/String1.csv";
+    private static readonly string PATH_0 = "C:/Users/fadee/Desktop/CSVVS/Resources/String1.csv";
+    private static readonly string PATH_1 = "C:/Users/fadee/Desktop/CSVVS/Test/String.csv";
     //private static readonly string PATH_2 = "../../../../String2.csv";
-    private static readonly string PATH_Result = "C:/Users/fadee/Desktop/CSVVS/Build csv/Result.csv";
+    private static readonly string PATH_Result = "C:/Users/fadee/Desktop/CSVVS/Test/Result.csv";
 
     private class CsvFile
     {
@@ -60,7 +60,7 @@ internal static class Program
                     if (inputToMerge != null)
                     {
                         CsvFile fc = new();
-                        ReadFile(ref fc, "C:/Users/fadee/Desktop/CSVVS/Build csv/" + inputToMerge + ".csv");
+                        ReadFile(ref fc, "C:/Users/fadee/Desktop/CSVVS/Test/" + inputToMerge + ".csv");
                         Merge(main, fc, PATH_Result);
                     }
                     break;
