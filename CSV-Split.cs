@@ -3,10 +3,10 @@ using System.Text;
 
 internal static class Program
 {
-    private static readonly string PATH_0 = "../../../../TOHE-Restored/Resources/String.csv";
-    private static readonly string PATH_1 = "../../../../CSV-Split/Build csv/String1.csv";
+    private static readonly string PATH_0 = "C:/Users/fadee/Desktop/CSVVS/Resources/String.csv";
+    private static readonly string PATH_1 = "C:/Users/fadee/Desktop/CSVVS/Build csv/String1.csv";
     //private static readonly string PATH_2 = "../../../../String2.csv";
-    private static readonly string PATH_Result = "../../../../CSV-Split/Build csv/Result.csv";
+    private static readonly string PATH_Result = "C:/Users/fadee/Desktop/CSVVS/Build csv/Result.csv";
 
     private class CsvFile
     {
@@ -18,11 +18,12 @@ internal static class Program
 
     private static void Main()
     {
+        Console.OutputEncoding = Encoding.UTF8;
         CsvFile main = new();
         ReadFile(ref main, PATH_0);
         while (true)
         {
-            Console.WriteLine("\n1: 一Cплит ключ\n2: Настройка разделенных файлов\n3: 一Объединение одним ключом\n4: пользовательский файл слияния\n5: Добавить языковой шаблон\n6: Выходные данные");
+            Console.WriteLine("\n1: -Cплит ключ\n2: -Настройка разделенных файлов\n3: -Объединение одним ключом\n4: -Пользовательский файл слияния\n5: -Добавить языковой шаблон\n6: -Выходные данные");
             Console.Write("\nВыберите, что нужно сделать: ");
             var input = Console.ReadLine();
             if (input?.ToLower() == "0") break;
@@ -59,7 +60,7 @@ internal static class Program
                     if (inputToMerge != null)
                     {
                         CsvFile fc = new();
-                        ReadFile(ref fc, "../../../../CSV-Split/Build csv/" + inputToMerge + ".csv");
+                        ReadFile(ref fc, "C:/Users/fadee/Desktop/CSVVS/Build csv/" + inputToMerge + ".csv");
                         Merge(main, fc, PATH_Result);
                     }
                     break;
@@ -93,6 +94,8 @@ internal static class Program
 
     private static bool ReadFile(ref CsvFile file, string path, bool cache = false)
     {
+        Console.OutputEncoding = Encoding.UTF8;
+
         file.map = new();
         file.notes = new();
         file.langs = new();
@@ -137,11 +140,11 @@ internal static class Program
                     }
                     catch
                     {
-                        Console.WriteLine($"Header: {i} => {line.Index}行 超出翻译范围");
+                        Console.WriteLine($"Header: {i} => {line.Index} строка вне диапазона перевода");
                     }
                 }
                 if (!file.map.TryAdd(line.Values[0], dic))
-                    Console.WriteLine($"重复项：第{line.Index}行 => \"{line.Values[0]}\"");
+                    Console.WriteLine($"Дубликаты: Строка {line.Index} => \"{line.Values[0]}\"");
                 else
                     if (cache) Console.WriteLine(sb.ToString());
             }
@@ -152,12 +155,13 @@ internal static class Program
             }
         }
         if (cache) Console.WriteLine("--------------------------------");
-        Console.WriteLine($"读取完成：共{file.map.Count}个字符串，{file.langs.Count - 1}个翻译");
+        Console.WriteLine($"Чтение завершено: Всего {file.map.Count} строк, {file.langs.Count - 1} переводов");
         return true;
     }
 
     private static bool Split(CsvFile file, string path, string ip = "")
     {
+        Console.OutputEncoding = Encoding.UTF8;
         string input;
         if (ip == "")
         {
@@ -200,6 +204,7 @@ internal static class Program
 
     private static bool Merge(CsvFile main, CsvFile target, string path)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         var sb = new StringBuilder();
 
         sb.Append("\"id\"");
@@ -242,6 +247,7 @@ internal static class Program
 
     private static void NewLang(ref CsvFile file, int id)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         if (file.langs.Contains(id.ToString()))
         {
             Console.WriteLine("已存在该语言");
@@ -262,6 +268,7 @@ internal static class Program
 
     private static bool Output(CsvFile main, string path)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         var sb = new StringBuilder();
 
         sb.Append("\"id\"");
